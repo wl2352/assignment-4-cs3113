@@ -83,7 +83,7 @@ void LevelB::initialise()
 
     m_state.enemies = new Entity[ENEMY_COUNT];
     m_state.enemies[0].set_entity_type(ENEMY);
-    m_state.enemies[0].set_ai_type(GUARD);
+    m_state.enemies[0].set_ai_type(WINGER);
     m_state.enemies[0].set_ai_state(IDLE);
     m_state.enemies[0].m_texture_id = enemy_texture_id;
     m_state.enemies[0].set_position(glm::vec3(8.5f, 0.0f, 0.0f));
@@ -97,11 +97,11 @@ void LevelB::initialise()
      */
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
 
-    m_state.bgm = Mix_LoadMUS("assets/audio/dooblydoo.mp3");
+    m_state.bgm = Mix_LoadMUS("assets/audio/Gothamlicious.mp3");
     Mix_PlayMusic(m_state.bgm, -1);
-    Mix_VolumeMusic(0.0f);
+    Mix_VolumeMusic(1.0f);
 
-    m_state.jump_sfx = Mix_LoadWAV("assets/audio/bounce.wav");
+    m_state.jump_sfx = Mix_LoadWAV("assets/audio/jump.wav");
 }
 
 void LevelB::update(float delta_time)

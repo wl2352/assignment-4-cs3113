@@ -95,11 +95,11 @@ void LevelC::initialise()
      */
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
 
-    m_state.bgm = Mix_LoadMUS("assets/audio/dooblydoo.mp3");
+    m_state.bgm = Mix_LoadMUS("assets/audio/Gothamlicious.mp3");
     Mix_PlayMusic(m_state.bgm, -1);
-    Mix_VolumeMusic(0.0f);
+    Mix_VolumeMusic(1.0f);
 
-    m_state.jump_sfx = Mix_LoadWAV("assets/audio/bounce.wav");
+    m_state.jump_sfx = Mix_LoadWAV("assets/audio/jump.wav");
 }
 
 void LevelC::update(float delta_time)
