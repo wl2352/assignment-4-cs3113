@@ -32,9 +32,9 @@
 const int   WINDOW_WIDTH = 640,
 WINDOW_HEIGHT = 480;
 
-const float BG_RED = 0.0f,
-BG_BLUE = 0.0f,
-BG_GREEN = 0.0f,
+const float BG_RED = 1.0f,
+BG_BLUE = 1.0f,
+BG_GREEN = 1.0f,
 BG_OPACITY = 1.0f;
 
 const int   VIEWPORT_X = 0,
@@ -44,7 +44,7 @@ VIEWPORT_HEIGHT = WINDOW_HEIGHT;
 
 const char  V_SHADER_PATH[] = "shaders/vertex_textured.glsl",
 F_SHADER_PATH[] = "shaders/fragment_textured.glsl";
-const char FONT_FILEPATH[] = "assets/fonts/font1.png";
+const char FONT_FILEPATH[] = "sprites/font1.png";
 
 const float MILLISECONDS_IN_SECOND = 1000.0;
 
@@ -93,6 +93,7 @@ void initialise()
     // ————— GENERAL ————— //
     glViewport(VIEWPORT_X, VIEWPORT_Y, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 
+    glUseProgram(g_shader_program.get_program_id());
     GLuint g_text_texture_id = Utility::load_texture(FONT_FILEPATH);
 
     g_shader_program.load(V_SHADER_PATH, F_SHADER_PATH);
@@ -230,13 +231,10 @@ void render()
     g_shader_program.set_view_matrix(g_view_matrix);
 
     glClear(GL_COLOR_BUFFER_BIT);
-
-    // ————— RENDERING THE SCENE (i.e. map, character, enemies...) ————— //
-    g_current_scene->render(&g_shader_program);
     if (!g_current_scene->m_state.player->is_active()) {
         secs += 1;
         // LOSER
-        Utility::draw_text(&g_shader_program, g_text_texture_id, std::string("YOU LOSE!!"), 0.75f, 0.01f, glm::vec3(g_current_scene->m_state.player->get_position().x - 4.0f,
+        Utility::draw_text(&g_shader_program, g_text_texture_id, std::string("YOU LOSE!!"), 0.50f, 0.00f, glm::vec3(g_current_scene->m_state.player->get_position().x - 4.0f,
             g_current_scene->m_state.player->get_position().y + 2.0f,
             g_current_scene->m_state.player->get_position().z));
         //g_game_is_running = false;
@@ -244,13 +242,17 @@ void render()
     if (g_current_scene->m_state.player->is_winner()) {
         secs += 1;
         // WINNER
-        Utility::draw_text(&g_shader_program, g_text_texture_id, std::string("YOU WIN ASMNKFNAFNWOGANG!!"), 0.75f, 0.01f, glm::vec3(g_current_scene->m_state.player->get_position().x - 4.0f,
+        Utility::draw_text(&g_shader_program, g_text_texture_id, std::string("YOU WIN!!"), 0.50f, 0.00f, glm::vec3(g_current_scene->m_state.player->get_position().x - 4.0f,
             g_current_scene->m_state.player->get_position().y + 2.0f,
             g_current_scene->m_state.player->get_position().z));
         //g_game_is_running = false;
     }
 
     if (secs == 3000) g_game_is_running = false;
+
+    // ————— RENDERING THE SCENE (i.e. map, character, enemies...) ————— //
+    g_current_scene->render(&g_shader_program);
+    
 
     SDL_GL_SwapWindow(g_display_window);
 }
@@ -261,6 +263,8 @@ void shutdown()
 
     // ————— DELETING LEVEL A DATA (i.e. map, character, enemies...) ————— //
     delete g_level_a;
+    delete g_level_b;
+    delete g_level_c;
 }
 
 // ————— GAME LOOP ————— //
